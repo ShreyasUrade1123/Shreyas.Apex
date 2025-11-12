@@ -74,15 +74,9 @@ export async function ensureValidToken(): Promise<string> {
   return tokens.accessToken;
 }
 
-// Function to get currently playing track with caching
+// Function to get currently playing track (no caching for real-time updates)
 export async function getCurrentlyPlaying() {
   try {
-    // Check cache first (5 minute TTL)
-    const cached = getCache<any>(CURRENTLY_PLAYING_CACHE_KEY);
-    if (cached) {
-      return cached;
-    }
-
     const accessToken = await ensureValidToken();
 
     if (!accessToken) {
@@ -100,9 +94,6 @@ export async function getCurrentlyPlaying() {
     }
 
     const data = await response.json();
-
-    // Cache the response for 5 minutes
-    setCache(CURRENTLY_PLAYING_CACHE_KEY, data, CACHE_TTL.FIVE_MINUTES);
 
     return data;
   } catch (error) {

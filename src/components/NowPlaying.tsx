@@ -163,8 +163,8 @@ export default function NowPlaying() {
     // Initial fetch
     fetchNowPlaying();
 
-    // Poll every 30 seconds (optimized to reduce API calls and improve performance)
-    fetchInterval.current = setInterval(fetchNowPlaying, 30000);
+    // Poll every 2 seconds for near real-time updates
+    fetchInterval.current = setInterval(fetchNowPlaying, 2000);
 
     // Cleanup function
     return () => {

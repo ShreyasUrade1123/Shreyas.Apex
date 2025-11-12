@@ -40,6 +40,7 @@ export async function GET(request: Request) {
     };
     
     const headers = {
+      "alg": "ES256" as const,
       "kid": KEY_ID,
       "id": `${TEAM_ID}.${SERVICE_ID}`
     };
