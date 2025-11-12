@@ -279,24 +279,24 @@ export default function CreditsPage() {
       scale: 1,
       backgroundColor: "rgba(39, 39, 42, 0.5)",
       color: "rgb(161, 161, 170)",
-      transition: { 
-        duration: 0.3 
+      transition: {
+        duration: 0.3
       }
     },
-    hover: { 
+    hover: {
       scale: 1.05,
       backgroundColor: "rgba(63, 63, 70, 1)",
       color: "rgb(228, 228, 231)",
-      transition: { 
-        type: "spring", 
-        stiffness: 400, 
-        damping: 10 
+      transition: {
+        type: "spring" as const,
+        stiffness: 400,
+        damping: 10
       }
     },
-    tap: { 
+    tap: {
       scale: 0.95,
-      transition: { 
-        duration: 0.1 
+      transition: {
+        duration: 0.1
       }
     }
   };
