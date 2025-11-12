@@ -57,30 +57,30 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-foreground font-mono relative overflow-x-hidden`}
       >
           {/* Loading Screen */}
-          <LoadingScreen />
-
-          {/* Content wrapper with Error Boundary */}
-          <ErrorBoundary>
-            <div className="content-fade-mask relative z-10">
-              <div className="relative">
-                <TransitionWrapper>{children}</TransitionWrapper>
+          <LoadingScreen>
+            {/* Content wrapper with Error Boundary */}
+            <ErrorBoundary>
+              <div className="content-fade-mask relative z-10">
+                <div className="relative">
+                  <TransitionWrapper>{children}</TransitionWrapper>
+                </div>
               </div>
-            </div>
-          </ErrorBoundary>
+            </ErrorBoundary>
 
-          {/* NavBar wrapper with Error Boundary */}
-          <ErrorBoundary>
-            <div className="relative z-50">
-              <NavBar />
-            </div>
-          </ErrorBoundary>
+            {/* NavBar wrapper with Error Boundary */}
+            <ErrorBoundary>
+              <div className="relative z-50">
+                <NavBar />
+              </div>
+            </ErrorBoundary>
 
-          {/* Analytics */}
-          <Analytics/>
-          <SpeedInsights />
-          <div className="relative z-[100]">
-            <BackToTop threshold={400} />
-          </div>
+            {/* Analytics */}
+            <Analytics/>
+            <SpeedInsights />
+            <div className="relative z-[100]">
+              <BackToTop threshold={400} />
+            </div>
+          </LoadingScreen>
       </body>
     </html>
   );
