@@ -78,7 +78,7 @@ export default function RootLayout({
             <Analytics/>
             <SpeedInsights />
             <div className="relative z-[100]">
-              <BackToTop threshold={400} />
+              <BackToTop />
             </div>
           </LoadingScreen>
       </body>

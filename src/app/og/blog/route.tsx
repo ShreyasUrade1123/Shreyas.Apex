@@ -74,7 +74,7 @@ export async function GET(request: Request) {
         name: "Inter",
         data: fontDataBold,
         style: "normal" as const,
-        weight: 700,
+        weight: 700 as const,
       });
     }
     
