@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Dive into Wica's thoughts, ideas, and stories on technology, design, and creativity.",
+  description: "Dive into Shreyas's thoughts, ideas, and stories on technology, design, and creativity.",
   openGraph: {
     title: "Blog",
-    description: "Dive into Wica's thoughts, ideas, and stories on technology, design, and creativity.",
-    url: "https://wica.lol/blog",
+    description: "Dive into Shreyas's thoughts, ideas, and stories on technology, design, and creativity.",
+    url: "https://shreyas-apex.vercel.app/blog",
     images: [
       {
-        url: "https://wica.lol/og/home?title=blog",
+        url: "https://shreyas-apex.vercel.app/og/home?title=blog",
       },
     ],
   },
   twitter: {
     title: "Blog",
-    description: "Dive into Wica's thoughts, ideas, and stories on technology, design, and creativity.",
+    description: "Dive into Shreyas's thoughts, ideas, and stories on technology, design, and creativity.",
     card: "summary_large_image",
-    creator: "@williamcachamwri",
-    images: ["https://wica.lol/og/home?title=blog"],
+    creator: "@shreyasurade",
+    images: ["https://shreyas-apex.vercel.app/og/home?title=blog"],
   },
 };

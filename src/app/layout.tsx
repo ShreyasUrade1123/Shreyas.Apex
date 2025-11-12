@@ -23,20 +23,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://wica.lol"),
+  metadataBase: new URL("https://shreyas-apex.vercel.app"),
   title: {
     default: "Shreyas // Apex Portfolio",
-    template: "%s | Wica",
+    template: "%s | Shreyas",
   },
   description: "High school student, part-time coder, full-time chaos creator",
   openGraph: {
-    title: "William Cachamwri",
+    title: "Shreyas Prashant Urade",
     description: "High school student, part-time coder, full-time chaos creator",
-    url: "https://wica.lol",
-    siteName: "William Cachamwri",
+    url: "https://shreyas-apex.vercel.app",
+    siteName: "Shreyas Prashant Urade",
     locale: "en_US",
     type: "website",
-    images: ["https://wica.lol/og/home"],
+    images: ["https://shreyas-apex.vercel.app/og/home"],
   },
   robots: {
     index: true,

@@ -41,10 +41,10 @@ export async function generateMetadata({
       description: post.metadata.description,
       publishedTime,
       type: "article",
-      url: `https://wica.lol/blog/${post.slug}`,
+      url: `https://shreyas-apex.vercel.app/blog/${post.slug}`,
       images: [
         {
-          url: `https://wica.lol/og/blog?title=${encodedTitle}`,
+          url: `https://shreyas-apex.vercel.app/og/blog?title=${encodedTitle}`,
         },
       ],
     },
@@ -52,9 +52,9 @@ export async function generateMetadata({
       title: post.metadata.title,
       description: post.metadata.description,
       card: "summary_large_image",
-      creator: "@williamcachamwri",
+      creator: "@shreyasurade",
       images: [
-        `https://wica.lol/og/blog?title=${encodedTitle}&top=${encodedDate}`,
+        `https://shreyas-apex.vercel.app/og/blog?title=${encodedTitle}&top=${encodedDate}`,
       ],
     },
   };
@@ -86,11 +86,11 @@ export default async function Post({ params }: { params: Promise<{ slug: string 
               datePublished: post.metadata.date,
               dateModified: post.metadata.date,
               description: post.metadata.description,
-              image: `https://wica.lol/og/blog?title=${encodedTitle}&top=${encodedDate}`,
-              url: `https://wica.lol/blog/${post.slug}`,
+              image: `https://shreyas-apex.vercel.app/og/blog?title=${encodedTitle}&top=${encodedDate}`,
+              url: `https://shreyas-apex.vercel.app/blog/${post.slug}`,
               author: {
                 "@type": "Person",
-                name: "William Cachamwri",
+                name: "Shreyas Prashant Urade",
               },
             }),
           }}

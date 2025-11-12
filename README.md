@@ -2,7 +2,7 @@
 
 # 🚀 Shreyas.Apex - Modern Personal Portfolio
 
-[![Website](https://img.shields.io/badge/Visit-Shreyas.Apex-34D399?style=for-the-badge&logo=vercel&logoColor=white)](https://wica.lol)
+[![Website](https://img.shields.io/badge/Visit-Shreyas.Apex-34D399?style=for-the-badge&logo=vercel&logoColor=white)](https://shreyas-apex.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-15.2.3-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.2-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -587,7 +587,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 **Shreyas Prashant Urade** - High school student, part-time coder, full-time chaos creator
 
-- **Website:** [Shreyas.Apex](https://wica.lol)
+- **Website:** [Shreyas.Apex](https://shreyas-apex.vercel.app)
 - **GitHub:** [@ShreyasUrade1123](https://github.com/ShreyasUrade1123)
 - **Email:** shreyasurade4940@gmail.com
 
@@ -613,7 +613,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 <div align="center">
 
-Made with ❤️ by [Shreyas Prashant Urade](https://wica.lol)
+Made with ❤️ by [Shreyas Prashant Urade](https://shreyas-apex.vercel.app)
 
 If you found this project helpful, please consider giving it a ⭐!
 
