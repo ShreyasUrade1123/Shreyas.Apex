@@ -80,48 +80,48 @@ export default function Projects() {
   }, []);
 
   return (
-    <main 
-      ref={mainRef} 
+    <main
+      ref={mainRef}
       className="relative min-h-screen text-white p-8 md:p-16 lg:p-24 max-w-4xl mx-auto overflow-hidden"
     >
       {/* Enhanced cosmic background elements */}
       <div className="fixed inset-0 -z-10 bg-black pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(50,50,50,0.1),rgba(0,0,0,0)_50%)] pointer-events-none" />
-        
-        <motion.div 
+
+        <motion.div
           className="absolute top-0 left-0 w-full h-1 pointer-events-none"
           style={{
             background: "linear-gradient(to right, transparent, rgba(52, 211, 153, 0.3), transparent)",
           }}
-          animate={{ 
+          animate={{
             scaleX: [0, 1, 0],
             opacity: [0, 0.5, 0],
             x: ["-100%", "0%", "100%"]
           }}
-          transition={{ 
-            duration: 8, 
+          transition={{
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut"
           }}
         />
-        
-        <motion.div 
+
+        <motion.div
           className="absolute bottom-0 left-0 w-full h-1 pointer-events-none"
           style={{
             background: "linear-gradient(to right, transparent, rgba(52, 211, 153, 0.2), transparent)",
           }}
-          animate={{ 
+          animate={{
             scaleX: [0, 1, 0],
             opacity: [0, 0.3, 0],
             x: ["100%", "0%", "-100%"]
           }}
-          transition={{ 
-            duration: 12, 
+          transition={{
+            duration: 12,
             repeat: Infinity,
             ease: "easeInOut"
           }}
         />
-        
+
         {/* Ultra-enhanced animated cosmic particles */}
         {bgParticles.length > 0 && bgParticles.map((particle, i) => (
           <motion.div
@@ -151,11 +151,11 @@ export default function Projects() {
             }}
           />
         ))}
-        
+
         {/* Bỏ reactive glow effect that follows mouse */}
-        
+
         {/* Cosmic grid lines */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{
             backgroundImage: `
               linear-gradient(to right, rgba(52, 211, 153, 0.5) 1px, transparent 1px),
@@ -174,14 +174,14 @@ export default function Projects() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <motion.h1 
+          <motion.h1
             className="text-5xl font-bold text-white relative inline-block"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             whileHover={{ scale: 1.03 }}
           >
-            <motion.span 
+            <motion.span
               className="text-green-300 inline-block"
               animate={{ rotate: [0, 5, 0, -5, 0] }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 5 }}
@@ -190,7 +190,7 @@ export default function Projects() {
             </motion.span>{" "}
             <span className="relative">
               projects
-              <motion.span 
+              <motion.span
                 className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-green-300/0 via-green-300 to-green-300/0"
                 initial={{ width: 0 }}
                 animate={{ width: "100%" }}
@@ -216,20 +216,20 @@ export default function Projects() {
           className="mb-12 flex flex-wrap gap-3 relative"
         >
           {/* Animated background glow for active category */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 -z-10 rounded-full bg-green-300/5 filter blur-xl"
-            animate={{ 
+            animate={{
               x: categories.findIndex(cat => cat === activeCategory) * 110,
               opacity: [0.5, 0.8, 0.5],
               scale: [0.9, 1.1, 0.9],
             }}
-            transition={{ 
+            transition={{
               x: { type: "spring", stiffness: 200, damping: 30 },
               opacity: { duration: 2, repeat: Infinity },
               scale: { duration: 3, repeat: Infinity },
             }}
           />
-          
+
           {categories.map((category, index) => (
             <motion.button
               key={category}
@@ -244,14 +244,14 @@ export default function Projects() {
               transition={{ delay: 0.5 + index * 0.1 }}
             >
               {/* Background for button */}
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 -z-10 rounded-full"
-                animate={{ 
-                  backgroundColor: category === activeCategory 
-                    ? 'rgba(52, 211, 153, 0.2)' 
+                animate={{
+                  backgroundColor: category === activeCategory
+                    ? 'rgba(52, 211, 153, 0.2)'
                     : 'rgba(39, 39, 42, 0.5)',
-                  borderColor: category === activeCategory 
-                    ? 'rgba(52, 211, 153, 0.3)' 
+                  borderColor: category === activeCategory
+                    ? 'rgba(52, 211, 153, 0.3)'
                     : 'rgba(82, 82, 91, 0.5)',
                 }}
                 style={{
@@ -259,10 +259,10 @@ export default function Projects() {
                 }}
                 transition={{ duration: 0.3 }}
               />
-              
+
               {/* Hover effect */}
               {hoveredCategory === category && category !== activeCategory && (
-                <motion.div 
+                <motion.div
                   className="absolute inset-0 -z-10 rounded-full opacity-0 bg-green-300/10"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -270,7 +270,7 @@ export default function Projects() {
                   transition={{ duration: 0.2 }}
                 />
               )}
-              
+
               {/* Cosmic particles on active button */}
               {category === activeCategory && btnParticles.length > 0 && (
                 <>
@@ -300,13 +300,13 @@ export default function Projects() {
                   ))}
                 </>
               )}
-              
+
               {/* Text with glow effect for active category */}
               <motion.span
-                animate={{ 
+                animate={{
                   color: category === activeCategory ? '#86efac' : '#a1a1aa',
-                  textShadow: category === activeCategory 
-                    ? '0 0 8px rgba(134, 239, 172, 0.5)' 
+                  textShadow: category === activeCategory
+                    ? '0 0 8px rgba(134, 239, 172, 0.5)'
                     : 'none',
                 }}
                 transition={{ duration: 0.3 }}
@@ -326,10 +326,10 @@ export default function Projects() {
         >
           {/* Pass the active category to ProjectCards */}
           <ProjectCards activeCategory={activeCategory} />
-          
+
           {/* Bỏ Cosmic light rays */}
         </motion.div>
-        
+
         {/* Ultra-enhanced cosmic footer - Completely redesigned */}
         <motion.footer
           initial={{ opacity: 0 }}
@@ -341,16 +341,16 @@ export default function Projects() {
           <div className="text-center pt-12 border-t border-zinc-800/30">
             {/* Elegant divider with animated particles */}
             <div className="relative w-full max-w-xs mx-auto mb-8">
-              <motion.div 
+              <motion.div
                 className="h-px w-full bg-gradient-to-r from-transparent via-green-300/50 to-transparent"
-                animate={{ 
+                animate={{
                   opacity: [0.3, 0.7, 0.3],
                   width: ["70%", "100%", "70%"]
                 }}
                 transition={{ duration: 4, repeat: Infinity, repeatType: "reverse" }}
                 style={{ margin: "0 auto" }}
               />
-              
+
               {/* Elegant floating particles */}
               {lineParticles.length > 0 && lineParticles.map((particle, i) => (
                 <motion.div
@@ -374,11 +374,11 @@ export default function Projects() {
                 />
               ))}
             </div>
-            
+
             {/* Ultra-enhanced signature with elegant glass effect */}
             <motion.div
               className="inline-block mb-6"
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 y: -2
               }}
@@ -391,7 +391,7 @@ export default function Projects() {
                 transition={{ duration: 1 }}
               >
                 {/* Subtle glass background */}
-                <motion.div 
+                <motion.div
                   className="absolute inset-0 rounded-full opacity-10"
                   animate={{
                     background: [
@@ -402,17 +402,17 @@ export default function Projects() {
                   }}
                   transition={{ duration: 10, repeat: Infinity }}
                 />
-                
+
                 {/* Subtle border */}
-                <motion.div 
+                <motion.div
                   className="absolute inset-0 rounded-full opacity-20"
-                  style={{ 
+                  style={{
                     border: "1px solid rgba(52, 211, 153, 0.2)"
                   }}
                 />
-                
+
                 {/* Animated text with elegant styling */}
-                <motion.div 
+                <motion.div
                   className="text-base font-medium tracking-wider relative z-10"
                 >
                   <motion.span
@@ -433,11 +433,11 @@ export default function Projects() {
                   </motion.span>
                   <motion.span
                     className="inline-block relative"
-                    animate={{ 
+                    animate={{
                       scale: [1, 1.2, 1],
                       y: [0, -2, 0]
                     }}
-                    transition={{ 
+                    transition={{
                       duration: 2,
                       repeat: Infinity,
                       repeatDelay: 3
@@ -495,14 +495,14 @@ export default function Projects() {
                     }}
                   >
                     Shreyas
-                    
+
                     {/* Elegant animated underline */}
                     <motion.div
                       className="absolute -bottom-1 left-0 h-[1px] w-full"
                       initial={{ scaleX: 0 }}
                       animate={{ scaleX: [0, 1, 1, 0] }}
-                      transition={{ 
-                        duration: 4, 
+                      transition={{
+                        duration: 4,
                         repeat: Infinity,
                         times: [0, 0.2, 0.8, 1],
                         repeatDelay: 1
@@ -514,7 +514,7 @@ export default function Projects() {
                     />
                   </motion.span>
                 </motion.div>
-                
+
                 {/* Subtle floating particles */}
                 {signParticles.length > 0 && signParticles.map((particle, i) => (
                   <motion.div
@@ -541,11 +541,11 @@ export default function Projects() {
                 ))}
               </motion.div>
             </motion.div>
-            
+
             {/* Copyright with elegant styling */}
-            <motion.div 
+            <motion.div
               className="mb-6 text-xs text-gray-500/70"
-              whileHover={{ 
+              whileHover={{
                 color: "rgba(134, 239, 172, 0.8)",
                 letterSpacing: "0.05em",
                 textShadow: "0 0 5px rgba(52, 211, 153, 0.2)"
@@ -554,7 +554,7 @@ export default function Projects() {
             >
               © {new Date().getFullYear()} • All rights reserved
             </motion.div>
-            
+
             {/* Code signature with elegant animation - Enhanced */}
             <motion.div
               className="flex justify-center"
@@ -565,7 +565,7 @@ export default function Projects() {
             >
               <motion.div
                 className="relative"
-                whileHover={{ 
+                whileHover={{
                   scale: 1.1,
                   y: -2
                 }}
@@ -591,7 +591,7 @@ export default function Projects() {
                 >
                   &lt;/&gt;
                 </motion.div>
-                
+
                 {/* Removed typing cursor effect */}
               </motion.div>
             </motion.div>

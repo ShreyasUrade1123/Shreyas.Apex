@@ -5,6 +5,7 @@ export type Project = {
   technologies: string[];
   category: "Web Development" | "Web Design" | "Application" | "AI/ML";
   featured?: boolean;
+  imageSrc?: string;
 };
 
 export const projectList: Project[] = [
@@ -14,7 +15,8 @@ export const projectList: Project[] = [
     link: "https://github.com/ShreyasUrade1123/SafeMIne/tree/master",
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "JWT"],
     category: "Web Development",
-    featured: true
+    featured: true,
+    imageSrc: "/projects/safemine.png"
   },
   {
     title: "TeamSync",
@@ -22,7 +24,8 @@ export const projectList: Project[] = [
     link: "https://github.com/ShreyasUrade1123/Team_Sync.",
     technologies: ["React", "TypeScript", "Node.js", "MongoDB", "Express.js", "Socket.io"],
     category: "Web Development",
-    featured: true
+    featured: true,
+    imageSrc: "/projects/teamsync.png"
   },
   {
     title: "CodeDeck",
@@ -30,6 +33,7 @@ export const projectList: Project[] = [
     link: "https://github.com/ShreyasUrade1123/CodeDeck-/tree/master",
     technologies: ["React", "MongoDB", "Node.js", "Express.js", "Socket.io"],
     category: "Web Development",
+    imageSrc: "/projects/codedeck.png"
   },
   {
     title: "F1-Race-Prediction",
@@ -37,6 +41,7 @@ export const projectList: Project[] = [
     link: "https://github.com/ShreyasUrade1123/F1-Race-Prediction",
     technologies: ["Python", "Tenserflow", "Kaggle",],
     category: "AI/ML",
+    imageSrc: "/projects/f1.png"
   },
   {
     title: "DocOrizon",
@@ -44,6 +49,7 @@ export const projectList: Project[] = [
     link: "https://www.figma.com/design/dro9XIk5NYZmwaX6KoovBS/Roxiler?node-id=0-1&t=xRnCpIbonpfJxiz9-1",
     technologies: ["Figma", "Illustrator", "Photoshop"],
     category: "Application",
+    imageSrc: "/projects/docorizon.png"
   },
   {
     title: "Saarthii",
@@ -51,6 +57,7 @@ export const projectList: Project[] = [
     link: "https://www.figma.com/design/Yfl5hF65zghwCpuS20NANc/Saarthi-Mock?node-id=0-1&t=hSuCD11PSsCWWAgZ-1",
     technologies: ["Figma", "Illustrator", "Photoshop"],
     category: "Web Design",
+    imageSrc: "/projects/saarthii.png"
   },
   {
     title: "Women Safety app",
@@ -58,6 +65,7 @@ export const projectList: Project[] = [
     link: "https://www.figma.com/design/aU5hwOdrjYrS7Q75apgpOE/Artemis-Demo?node-id=0-1&t=uLxaEQyxO7ke4J0V-1",
     technologies: ["Figma", "Illustrator", "Photoshop"],
     category: "Application",
+    imageSrc: "/projects/women-safety.png"
   },
   {
     title: "Kalatarang",
@@ -65,6 +73,7 @@ export const projectList: Project[] = [
     link: "https://www.figma.com/design/fzO2e553O5jHkYd8FerzD4/Kaltarang?node-id=13-151&t=XOmXWM1cNd3GjYc5-1",
     technologies: ["Figma", "Illustrator", "Photoshop"],
     category: "Web Design",
+    imageSrc: "/projects/kalatarang.png"
   },
   {
     title: "Darcspy",
@@ -72,6 +81,7 @@ export const projectList: Project[] = [
     link: "https://www.figma.com/design/63hIZrT6IjvtpYXt3yYSQ3/Darcspy-App?node-id=0-1&t=H61LIihOIuvz4YpG-1",
     technologies: ["Figma", "Illustrator", "Photoshop"],
     category: "Application",
+    imageSrc: "/projects/darcspy.png"
   },
   {
     title: "Urjotsav",
@@ -79,6 +89,7 @@ export const projectList: Project[] = [
     link: "https://www.figma.com/design/CDkj7hUtzIaZtzHSVCdr3o/Untitled?node-id=0-1&t=5up4N8u2ivzh3sq5-1",
     technologies: ["Figma", "Illustrator", "Photoshop"],
     category: "Web Design",
+    imageSrc: "/projects/urjotsav.png"
   },
   {
     title: "LockerGM",
@@ -86,6 +97,7 @@ export const projectList: Project[] = [
     link: "https://www.figma.com/design/SWqpJfC5iCIsC7MqVk04k3/DraconX-Job-Mock-Design?node-id=0-1&t=Rl1l5bVQH6lSOXYx-1",
     technologies: ["Figma", "Illustrator", "Photoshop"],
     category: "Web Design",
+    imageSrc: "/projects/lockergm.png"
   },
   {
     title: "Sahayak",
@@ -93,5 +105,6 @@ export const projectList: Project[] = [
     link: "https://github.com/ShreyasUrade1123/Sahayak",
     technologies: ["React", "MongoDB", "Node.js", "Express.js", "Socket.io"],
     category: "Web Development",
+    imageSrc: "/projects/sahayak.png"
   },
 ];
