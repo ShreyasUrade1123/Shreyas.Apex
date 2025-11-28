@@ -1,8 +1,222 @@
 "use client";
 
-import { motion, useMotionValue, useTransform, useAnimation, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect, useMemo, useCallback, memo } from "react";
 import { useClientParticles } from "~/hooks/useClientRandom";
+
+// Memoized paragraph component to prevent re-renders of all paragraphs when one is hovered
+const AboutParagraph = memo(({
+  paragraph,
+  index,
+  isHovered,
+  onHoverStart,
+  onHoverEnd,
+  mousePosition,
+  paragraphParticlesData
+}: {
+  paragraph: string,
+  index: number,
+  isHovered: boolean,
+  onHoverStart: (index: number) => void,
+  onHoverEnd: () => void,
+  mousePosition: { x: number, y: number },
+  paragraphParticlesData: any[]
+}) => {
+  // Memoize character animations for each paragraph
+  const charElements = useMemo(() =>
+    paragraph.split('').map((char, charIndex) => (
+      <motion.span
+        key={charIndex}
+        initial={{ opacity: 1 }}
+        animate={{
+          opacity: isHovered ?
+            [1, char === ' ' ? 1 : 0.7, 1] : 1,
+          y: isHovered ?
+            [0, char === ' ' ? 0 : -3, 0] : 0,
+          scale: isHovered && char !== ' ' ?
+            [1, 1.1, 1] : 1,
+          color: isHovered && char !== ' ' ?
+            ["#d1d5db", "#86efac", "#d1d5db"] : undefined,
+          textShadow: isHovered && char !== ' ' ?
+            ["0 0 0px rgba(134, 239, 172, 0)", "0 0 8px rgba(134, 239, 172, 0.5)", "0 0 0px rgba(134, 239, 172, 0)"] : undefined
+        }}
+        transition={{
+          duration: 1.2,
+          delay: isHovered ? charIndex * 0.008 : 0,
+          repeat: isHovered ? Infinity : 0,
+          repeatDelay: 8,
+          repeatType: 'loop'
+        }}
+        style={{
+          display: 'inline-block',
+          willChange: isHovered ? 'transform, opacity, color' : 'auto'
+        }}
+      >
+        {char === ' ' ? '\u00A0' : char}
+      </motion.span>
+    )),
+    [paragraph, isHovered]);
+
+  // Memoize particle effects for each paragraph
+  const particleEffects = useMemo(() => {
+    if (!isHovered || paragraphParticlesData.length === 0) return null;
+
+    return (
+      <>
+        {paragraphParticlesData.map((p) => (
+          <motion.div
+            key={p.key}
+            className="absolute rounded-full z-0 pointer-events-none"
+            initial={{
+              opacity: 0,
+              scale: 0,
+              x: 0,
+              y: 0,
+            }}
+            animate={{
+              opacity: [0, 0.8, 0],
+              scale: [0, 1, 0],
+              x: [0, p.xMovement],
+              y: [0, p.yMovement],
+            }}
+            transition={{
+              duration: p.duration,
+              repeat: Infinity,
+              delay: p.delay,
+              ease: "easeOut",
+              repeatType: 'loop'
+            }}
+            style={{
+              left: `${p.leftOffset}%`,
+              top: `${p.topOffset}%`,
+              width: `${p.width}px`,
+              height: `${p.height}px`,
+              background: `rgba(134, 239, 172, ${p.opacity})`,
+              boxShadow: '0 0 8px rgba(134, 239, 172, 0.5)',
+              filter: 'blur(1px)',
+              willChange: 'transform, opacity'
+            }}
+          />
+        ))}
+      </>
+    );
+  }, [isHovered, paragraphParticlesData]);
+
+  return (
+    <motion.div
+      className="relative"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.5 + (index * 0.2) }}
+      onHoverStart={() => onHoverStart(index)}
+      onHoverEnd={onHoverEnd}
+    >
+      <motion.div
+        className="text-gray-300 leading-relaxed tracking-wide relative z-10 p-4 rounded-lg"
+        whileHover={{
+          color: "#ffffff",
+          textShadow: "0 0 1px rgba(255, 255, 255, 0.5)"
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        {/* Enhanced animated background on hover - optimized with conditional rendering */}
+        <motion.div
+          className="absolute inset-0 rounded-lg -z-10"
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: isHovered ? 0.15 : 0,
+          }}
+          transition={{ duration: 0.3 }}
+          style={{
+            background: isHovered ?
+              `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(134, 239, 172, 0.3), transparent 70%)` :
+              'none',
+            boxShadow: isHovered ?
+              "0 0 30px rgba(134, 239, 172, 0.1), inset 0 0 20px rgba(134, 239, 172, 0.05)" :
+              "none",
+            backdropFilter: isHovered ? "blur(5px)" : "none",
+            willChange: isHovered ? 'opacity, background, box-shadow' : 'auto'
+          }}
+        />
+
+        {/* Animated border on hover - only render when needed */}
+        {isHovered && (
+          <motion.div
+            className="absolute inset-0 rounded-lg -z-10 border border-green-300/20 will-change-background"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              background: [
+                'linear-gradient(90deg, rgba(134, 239, 172, 0) 0%, rgba(134, 239, 172, 0.1) 50%, rgba(134, 239, 172, 0) 100%)',
+                'linear-gradient(180deg, rgba(134, 239, 172, 0) 0%, rgba(134, 239, 172, 0.1) 50%, rgba(134, 239, 172, 0) 100%)',
+                'linear-gradient(270deg, rgba(134, 239, 172, 0) 0%, rgba(134, 239, 172, 0.1) 50%, rgba(134, 239, 172, 0) 100%)',
+                'linear-gradient(0deg, rgba(134, 239, 172, 0) 0%, rgba(134, 239, 172, 0.1) 50%, rgba(134, 239, 172, 0) 100%)',
+              ],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "linear",
+              repeatType: 'loop'
+            }}
+          />
+        )}
+
+        {/* Optimized character rendering with memoization */}
+        {charElements}
+
+        {/* Optimized particle effects with memoization */}
+        {particleEffects}
+
+        {/* Enhanced animated underline on hover */}
+        <motion.div
+          className="absolute bottom-0 left-0 h-[1px] will-change-transform"
+          style={{
+            background: 'linear-gradient(90deg, rgba(134, 239, 172, 0), rgba(134, 239, 172, 0.8), rgba(134, 239, 172, 0))',
+            boxShadow: '0 0 10px rgba(134, 239, 172, 0.3)'
+          }}
+          initial={{ width: 0, opacity: 0 }}
+          animate={{
+            width: isHovered ? "100%" : "0%",
+            opacity: isHovered ? 1 : 0,
+            left: isHovered ? ["0%", "0%"] : "0%"
+          }}
+          transition={{
+            duration: 0.6,
+            ease: "easeOut"
+          }}
+        />
+      </motion.div>
+
+      {/* Enhanced side indicator on hover */}
+      <motion.div
+        className="absolute left-0 top-0 bottom-0 w-1 rounded-full overflow-hidden will-change-transform"
+        initial={{ height: 0, opacity: 0 }}
+        animate={{
+          height: isHovered ? "100%" : "0%",
+          opacity: isHovered ? 1 : 0,
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        <motion.div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom, #86efac, #4ade80)' }}
+          animate={{
+            y: isHovered ? ["0%", "100%", "0%"] : "0%"
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "linear",
+            repeatType: 'loop'
+          }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+});
+
+AboutParagraph.displayName = "AboutParagraph";
 
 export default function About() {
   const [hoveredParagraph, setHoveredParagraph] = useState<number | null>(null);
@@ -10,21 +224,21 @@ export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  
+
   // Memoize paragraphs to prevent unnecessary re-renders
   const paragraphs = useMemo(() => [
-  "IT undergrad who learns best by building. I'm usually found debugging a full-stack app or trying to wrangle an open-source AI model into doing something useful.",
-  "I'm obsessed with the entire pipeline, from designing a pixel-perfect UI in Figma to optimizing the database query that powers it. I'm not satisfied until it's both functional and clean.",
-  "Driven by solving complex, practical problems. Currently exploring everything from high-performance trading systems to making psychological tools more accessible with tech."
-], []);
-  
+    "IT undergrad who learns best by building. I'm usually found debugging a full-stack app or trying to wrangle an open-source AI model into doing something useful.",
+    "I'm obsessed with the entire pipeline, from designing a pixel-perfect UI in Figma to optimizing the database query that powers it. I'm not satisfied until it's both functional and clean.",
+    "Driven by solving complex, practical problems. Currently exploring everything from high-performance trading systems to making psychological tools more accessible with tech."
+  ], []);
+
   // Optimize mouse tracking with useCallback and throttling
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (sectionRef.current) {
       const rect = sectionRef.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       // Use requestAnimationFrame for smoother updates
       requestAnimationFrame(() => {
         setMousePosition({ x, y });
@@ -39,7 +253,7 @@ export default function About() {
     let rafId: number;
     let lastExecTime = 0;
     const THROTTLE_INTERVAL = 10; // ms
-    
+
     const throttledMouseMove = (e: MouseEvent) => {
       const now = performance.now();
       if (now - lastExecTime >= THROTTLE_INTERVAL) {
@@ -61,12 +275,12 @@ export default function About() {
   // Memoize gradient transforms
   const gradientX = useTransform(mouseX, (val) => val / 2);
   const gradientY = useTransform(mouseY, (val) => val / 2);
-  
+
   // Memoize hover handlers
   const handleHoverStart = useCallback((index: number) => {
     setHoveredParagraph(index);
   }, []);
-  
+
   const handleHoverEnd = useCallback(() => {
     setHoveredParagraph(null);
   }, []);
@@ -76,12 +290,12 @@ export default function About() {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
   }), []);
-  
+
   const titleVariants = useMemo(() => ({
     hidden: { opacity: 0, x: -20 },
     visible: { opacity: 1, x: 0 }
   }), []);
-  
+
   // Optimize particle rendering with useClientParticles hook
   const titleParticles = useClientParticles(10, (i) => {
     const randomX = (Math.random() - 0.5) * 50;
@@ -134,7 +348,7 @@ export default function About() {
   });
 
   return (
-    <motion.section 
+    <motion.section
       ref={sectionRef}
       className="mb-16 space-y-6 relative overflow-hidden p-4 rounded-xl will-change-transform"
       variants={sectionVariants}
@@ -148,21 +362,21 @@ export default function About() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="relative"
       >
-        <motion.h2 
+        <motion.h2
           className="text-3xl font-bold mb-2 relative inline-block"
           whileHover={{ scale: 1.03 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <motion.span 
+          <motion.span
             className="text-green-300 inline-block will-change-transform"
-            animate={{ 
+            animate={{
               rotate: [0, 5, 0, -5, 0],
               color: ['#86efac', '#4ade80', '#86efac'],
               textShadow: ['0 0 0px rgba(134, 239, 172, 0)', '0 0 10px rgba(134, 239, 172, 0.5)', '0 0 0px rgba(134, 239, 172, 0)']
             }}
-            transition={{ 
-              duration: 2, 
-              repeat: Infinity, 
+            transition={{
+              duration: 2,
+              repeat: Infinity,
               repeatDelay: 5,
               times: [0, 0.2, 0.5, 0.8, 1],
               repeatType: 'loop'
@@ -172,16 +386,16 @@ export default function About() {
           </motion.span>{" "}
           <span className="relative group">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-green-200 to-white bg-[length:200%_100%] animate-shimmer">about</span>
-            
+
             {/* Animated underline with glow */}
-            <motion.span 
+            <motion.span
               className="absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-green-300/0 via-green-300 to-green-300/0 will-change-transform"
               initial={{ width: 0 }}
               animate={{ width: "100%" }}
               transition={{ duration: 1, delay: 0.5 }}
               style={{ boxShadow: '0 2px 10px rgba(134, 239, 172, 0.3)' }}
             />
-            
+
             {/* Particle burst on hover - optimized with AnimatePresence */}
             <motion.div
               className="absolute inset-0 -z-10 pointer-events-none"
@@ -193,19 +407,19 @@ export default function About() {
                   <motion.div
                     key={particle.key}
                     className="absolute rounded-full bg-green-300"
-                    initial={{ 
+                    initial={{
                       opacity: 0,
                       scale: 0,
                       x: 0,
                       y: 0,
                     }}
-                    whileHover={{ 
+                    whileHover={{
                       opacity: [0, 0.8, 0],
                       scale: [0, 1, 0],
                       x: [0, particle.randomX],
                       y: [0, particle.randomY],
                     }}
-                    transition={{ 
+                    transition={{
                       duration: particle.duration,
                       repeat: Infinity,
                       delay: particle.delay,
@@ -225,13 +439,13 @@ export default function About() {
             </motion.div>
           </span>
         </motion.h2>
-        
-        <motion.div 
+
+        <motion.div
           className="text-gray-500 italic text-xs mb-4 relative overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.7 }}
-          whileHover={{ 
+          whileHover={{
             color: "#86efac",
             textShadow: "0 0 8px rgba(134, 239, 172, 0.3)"
           }}
@@ -244,13 +458,13 @@ export default function About() {
           >
             {/* Animated brackets - optimized with reduced animation complexity */}
             <motion.span
-              animate={{ 
+              animate={{
                 scale: [1, 1.1, 1],
                 color: ['#6b7280', '#86efac', '#6b7280']
               }}
-              transition={{ 
-                duration: 3, 
-                repeat: Infinity, 
+              transition={{
+                duration: 3,
+                repeat: Infinity,
                 delay: 0.5,
                 repeatType: 'loop'
               }}
@@ -260,13 +474,13 @@ export default function About() {
             </motion.span>
             {" break → understand → build "}
             <motion.span
-              animate={{ 
+              animate={{
                 scale: [1, 1.1, 1],
                 color: ['#6b7280', '#86efac', '#6b7280']
               }}
-              transition={{ 
-                duration: 3, 
-                repeat: Infinity, 
+              transition={{
+                duration: 3,
+                repeat: Infinity,
                 delay: 0.5,
                 repeatType: 'loop'
               }}
@@ -275,10 +489,10 @@ export default function About() {
               ]
             </motion.span>
           </motion.span>
-          
-          <motion.span 
+
+          <motion.span
             className="absolute bottom-0 left-0 h-[1px] w-full will-change-transform"
-            style={{ 
+            style={{
               background: 'linear-gradient(90deg, transparent, rgba(134, 239, 172, 0.5), transparent)',
               filter: 'blur(0.5px)'
             }}
@@ -290,245 +504,62 @@ export default function About() {
       </motion.div>
 
       <div className="space-y-5 text-sm">
-        {paragraphs.map((paragraph, index) => {
-          // Memoize character animations for each paragraph
-          const charElements = useMemo(() => 
-            paragraph.split('').map((char, charIndex) => (
-              <motion.span
-                key={charIndex}
-                initial={{ opacity: 1 }}
-                animate={{ 
-                  opacity: hoveredParagraph === index ? 
-                    [1, char === ' ' ? 1 : 0.7, 1] : 1,
-                  y: hoveredParagraph === index ? 
-                    [0, char === ' ' ? 0 : -3, 0] : 0,
-                  scale: hoveredParagraph === index && char !== ' ' ? 
-                    [1, 1.1, 1] : 1,
-                  color: hoveredParagraph === index && char !== ' ' ? 
-                    ["#d1d5db", "#86efac", "#d1d5db"] : undefined,
-                  textShadow: hoveredParagraph === index && char !== ' ' ?
-                    ["0 0 0px rgba(134, 239, 172, 0)", "0 0 8px rgba(134, 239, 172, 0.5)", "0 0 0px rgba(134, 239, 172, 0)"] : undefined
-                }}
-                transition={{ 
-                  duration: 1.2, 
-                  delay: hoveredParagraph === index ? charIndex * 0.008 : 0,
-                  repeat: hoveredParagraph === index ? Infinity : 0,
-                  repeatDelay: 8,
-                  repeatType: 'loop'
-                }}
-                style={{ 
-                  display: 'inline-block',
-                  willChange: hoveredParagraph === index ? 'transform, opacity, color' : 'auto'
-                }}
-              >
-                {char === ' ' ? '\u00A0' : char}
-              </motion.span>
-            )),
-          [paragraph, index, hoveredParagraph]);
-          
-          // Memoize particle effects for each paragraph
-          const particleEffects = useMemo(() => {
-            if (hoveredParagraph !== index || paragraphParticlesData.length === 0) return null;
-
-            return (
-              <>
-                {paragraphParticlesData.map((p) => (
-                  <motion.div
-                    key={p.key}
-                    className="absolute rounded-full z-0 pointer-events-none"
-                    initial={{ 
-                      opacity: 0,
-                      scale: 0,
-                      x: 0,
-                      y: 0,
-                    }}
-                    animate={{ 
-                      opacity: [0, 0.8, 0],
-                      scale: [0, 1, 0],
-                      x: [0, p.xMovement],
-                      y: [0, p.yMovement],
-                    }}
-                    transition={{ 
-                      duration: p.duration,
-                      repeat: Infinity,
-                      delay: p.delay,
-                      ease: "easeOut",
-                      repeatType: 'loop'
-                    }}
-                    style={{
-                      left: `${p.leftOffset}%`,
-                      top: `${p.topOffset}%`,
-                      width: `${p.width}px`,
-                      height: `${p.height}px`,
-                      background: `rgba(134, 239, 172, ${p.opacity})`,
-                      boxShadow: '0 0 8px rgba(134, 239, 172, 0.5)',
-                      filter: 'blur(1px)',
-                      willChange: 'transform, opacity'
-                    }}
-                  />
-                ))}
-              </>
-            );
-          }, [hoveredParagraph, index, paragraphParticlesData]);
-          
-          return (
-            <motion.div
-              key={index}
-              className="relative"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 + (index * 0.2) }}
-              onHoverStart={() => handleHoverStart(index)}
-              onHoverEnd={handleHoverEnd}
-            >
-              <motion.div 
-                className="text-gray-300 leading-relaxed tracking-wide relative z-10 p-4 rounded-lg"
-                whileHover={{ 
-                  color: "#ffffff",
-                  textShadow: "0 0 1px rgba(255, 255, 255, 0.5)"
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* Enhanced animated background on hover - optimized with conditional rendering */}
-                <motion.div 
-                  className="absolute inset-0 rounded-lg -z-10"
-                  initial={{ opacity: 0 }}
-                  animate={{ 
-                    opacity: hoveredParagraph === index ? 0.15 : 0,
-                  }}
-                  transition={{ duration: 0.3 }}
-                  style={{ 
-                    background: hoveredParagraph === index ? 
-                      `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(134, 239, 172, 0.3), transparent 70%)` : 
-                      'none',
-                    boxShadow: hoveredParagraph === index ? 
-                      "0 0 30px rgba(134, 239, 172, 0.1), inset 0 0 20px rgba(134, 239, 172, 0.05)" : 
-                      "none",
-                    backdropFilter: hoveredParagraph === index ? "blur(5px)" : "none",
-                    willChange: hoveredParagraph === index ? 'opacity, background, box-shadow' : 'auto'
-                  }}
-                />
-                
-                {/* Animated border on hover - only render when needed */}
-                {hoveredParagraph === index && (
-                  <motion.div 
-                    className="absolute inset-0 rounded-lg -z-10 border border-green-300/20 will-change-background"
-                    initial={{ opacity: 0 }}
-                    animate={{ 
-                      opacity: 1,
-                      background: [
-                        'linear-gradient(90deg, rgba(134, 239, 172, 0) 0%, rgba(134, 239, 172, 0.1) 50%, rgba(134, 239, 172, 0) 100%)',
-                        'linear-gradient(180deg, rgba(134, 239, 172, 0) 0%, rgba(134, 239, 172, 0.1) 50%, rgba(134, 239, 172, 0) 100%)',
-                        'linear-gradient(270deg, rgba(134, 239, 172, 0) 0%, rgba(134, 239, 172, 0.1) 50%, rgba(134, 239, 172, 0) 100%)',
-                        'linear-gradient(0deg, rgba(134, 239, 172, 0) 0%, rgba(134, 239, 172, 0.1) 50%, rgba(134, 239, 172, 0) 100%)',
-                      ],
-                    }}
-                    transition={{ 
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "linear",
-                      repeatType: 'loop'
-                    }}
-                  />
-                )}
-                
-                {/* Optimized character rendering with memoization */}
-                {charElements}
-                
-                {/* Optimized particle effects with memoization */}
-                {particleEffects}
-                
-                {/* Enhanced animated underline on hover */}
-                <motion.div 
-                  className="absolute bottom-0 left-0 h-[1px] will-change-transform"
-                  style={{
-                    background: 'linear-gradient(90deg, rgba(134, 239, 172, 0), rgba(134, 239, 172, 0.8), rgba(134, 239, 172, 0))',
-                    boxShadow: '0 0 10px rgba(134, 239, 172, 0.3)'
-                  }}
-                  initial={{ width: 0, opacity: 0 }}
-                  animate={{ 
-                    width: hoveredParagraph === index ? "100%" : "0%",
-                    opacity: hoveredParagraph === index ? 1 : 0,
-                    left: hoveredParagraph === index ? ["0%", "0%"] : "0%"
-                  }}
-                  transition={{ 
-                    duration: 0.6,
-                    ease: "easeOut"
-                  }}
-                />
-              </motion.div>
-              
-              {/* Enhanced side indicator on hover */}
-              <motion.div
-                className="absolute left-0 top-0 bottom-0 w-1 rounded-full overflow-hidden will-change-transform"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ 
-                  height: hoveredParagraph === index ? "100%" : "0%",
-                  opacity: hoveredParagraph === index ? 1 : 0,
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                <motion.div 
-                  className="absolute inset-0"
-                  style={{ background: 'linear-gradient(to bottom, #86efac, #4ade80)' }}
-                  animate={{
-                    y: hoveredParagraph === index ? ["0%", "100%", "0%"] : "0%"
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "linear",
-                    repeatType: 'loop'
-                  }}
-                />
-              </motion.div>
-            </motion.div>
-          );
-        })}
+        {paragraphs.map((paragraph, index) => (
+          <AboutParagraph
+            key={index}
+            paragraph={paragraph}
+            index={index}
+            isHovered={hoveredParagraph === index}
+            onHoverStart={handleHoverStart}
+            onHoverEnd={handleHoverEnd}
+            mousePosition={mousePosition}
+            paragraphParticlesData={paragraphParticlesData}
+          />
+        ))}
       </div>
-      
+
       {/* Enhanced decorative elements - optimized with reduced animation complexity */}
-      <motion.div 
+      <motion.div
         className="absolute -right-20 top-1/2 w-60 h-60 rounded-full -z-10 pointer-events-none will-change-transform"
         style={{
           background: 'radial-gradient(circle, rgba(134, 239, 172, 0.1), transparent 70%)',
           filter: 'blur(40px)'
         }}
-        animate={{ 
+        animate={{
           scale: [1, 1.2, 1],
           opacity: [0.1, 0.2, 0.1],
           x: [0, -10, 0],
           y: [0, 10, 0]
         }}
-        transition={{ 
-          duration: 8, 
-          repeat: Infinity, 
+        transition={{
+          duration: 8,
+          repeat: Infinity,
           ease: "easeInOut",
           repeatType: 'loop'
         }}
       />
-      
-      <motion.div 
+
+      <motion.div
         className="absolute -left-20 bottom-0 w-40 h-40 rounded-full -z-10 pointer-events-none will-change-transform"
         style={{
           background: 'radial-gradient(circle, rgba(74, 222, 128, 0.08), transparent 70%)',
           filter: 'blur(30px)'
         }}
-        animate={{ 
+        animate={{
           scale: [1, 1.3, 1],
           opacity: [0.08, 0.15, 0.08],
           x: [0, 10, 0],
           y: [0, -10, 0]
         }}
-        transition={{ 
-          duration: 10, 
-          repeat: Infinity, 
-          ease: "easeInOut", 
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
           delay: 1,
           repeatType: 'loop'
         }}
       />
-      
+
       {/* Floating code particles - optimized with memoization */}
       {codeParticles.map((particle) => (
         <motion.div
@@ -555,7 +586,7 @@ export default function About() {
           {particle.symbol}
         </motion.div>
       ))}
-      
+
       {/* Subtle grid lines - no animation, so no optimization needed */}
       <div className="absolute inset-0 -z-30 opacity-5">
         <div className="absolute left-1/4 top-0 bottom-0 w-px bg-green-300/30" />
