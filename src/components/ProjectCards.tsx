@@ -5,6 +5,7 @@ import { BrowserWindow } from "./BrowserWindow";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { useClientParticles } from "~/hooks/useClientRandom";
+import { useThrottledMouseMove } from "~/hooks/useThrottledMouseMove";
 
 interface ProjectCardsProps {
   activeCategory?: string;
@@ -12,11 +13,11 @@ interface ProjectCardsProps {
 
 export function ProjectCards({ activeCategory = "All" }: ProjectCardsProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const mousePosition = useThrottledMouseMove(containerRef);
 
-  // Generate stable random values for particles on client side only
-  const magneticParticles = useClientParticles(8, (i) => ({
+  // Generate stable random values for particles on client side only (optimized counts)
+  const magneticParticles = useClientParticles(4, (i) => ({
     size: Math.random() * 3 + 1,
     initialX: Math.random() * 100,
     initialY: Math.random() * 100,
@@ -26,25 +27,13 @@ export function ProjectCards({ activeCategory = "All" }: ProjectCardsProps) {
   // Filter projects based on active category
   const filteredProjects = projectList.filter(project => {
     if (activeCategory === "All") return true;
+    if (Array.isArray(project.category)) {
+      return project.category.includes(activeCategory as any);
+    }
     return project.category === activeCategory;
   });
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setMousePosition({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
-      }
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
+  // Mouse tracking is now handled by useThrottledMouseMove hook
 
   return (
     <div ref={containerRef} className="text-white my-10 relative">

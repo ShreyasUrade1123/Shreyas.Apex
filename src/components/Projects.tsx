@@ -3,7 +3,7 @@ export type Project = {
   description: string;
   link: string;
   technologies: string[];
-  category: "Web Development" | "Web Design" | "Application" | "AI/ML";
+  category: "Web Development" | "Web Design" | "Application" | "AI/ML" | ("Web Development" | "Web Design" | "Application" | "AI/ML")[];
   featured?: boolean;
   imageSrc?: string;
 };
@@ -13,9 +13,38 @@ export const projectList: Project[] = [
     title: "SKYWINKS",
     description: "SkyWinks is a microservices-based airline booking platform featuring advanced flight search, real-time seat selection, secure payments, and role-based authentication. Built with a distributed Node.js backend, React frontend, MySQL, and RabbitMQ, it delivers a scalable, seamless booking experience through an API Gateway and modern, responsive UI.",
     link: "https://skywinks-airline-booking.vercel.app/",
-    technologies: ["React", "Node.js", "Express.js", "MySQL", "RabbitMQ", "JWT"],
-    category: "Web Development",
+    technologies: ["React", "Node.js", "Express.js", "MySQL", "RabbitMQ", "JWT", "Figma"],
+    category: ["Web Development", "Web Design"],
     imageSrc: "/skywinks.png"
+  },
+
+  {
+    title: "Trace",
+    description: "Mann-Mitra is a holistic mental wellness ecosystem featuring AI-driven psychological screening, real-time counsellor scheduling, secure anonymous forums, and an empathetic voice companion. Built with a MERN stack (MongoDB, Express, React, Node.js), Socket.io, and Python-based AI agents, it delivers accessible, privacy-focused support through a responsive PWA interface and role-based authentication.",
+    link: "https://trace-two-weld.vercel.app/",
+    technologies: ["React", "Node.js", "Express.js", "Python", "PostgreSQL", "JWT", "Figma"],
+    category: ["Web Development", "Web Design"],
+    imageSrc: "/trace.png"
+  },
+
+
+  {
+    title: "Mann-Mitra",
+    description: "Mann-Mitra is a holistic mental wellness ecosystem featuring AI-driven psychological screening, real-time counsellor scheduling, secure anonymous forums, and an empathetic voice companion. Built with a MERN stack (MongoDB, Express, React, Node.js), Socket.io, and Python-based AI agents, it delivers accessible, privacy-focused support through a responsive PWA interface and role-based authentication.",
+    link: "https://mann-mitra-sigma.vercel.app/",
+    technologies: ["React", "Node.js", "Express.js", "Python", "PostgreSQL", "JWT", "Figma"],
+    category: ["Web Development", "Web Design"],
+    imageSrc: "/mann-mitra.png"
+  },
+
+
+  {
+    title: "Buildathon",
+    description: "The MegaLLM Buildathon platform is an immersive event gateway featuring interactive WebGL simulations, fluid cursor dynamics, and cinematic motion effects. Built with React 19, Tailwind CSS v4, Framer Motion, and Three.js, it delivers a premium, high-performance registration experience through a modern dark aesthetic and responsive, hardware-accelerated visuals.",
+    link: "https://buildathon-demo.vercel.app/",
+    technologies: ["React", "Tailwind CSS", "Framer Motion", "Three.js"],
+    category: "Web Design",
+    imageSrc: "/buildathon.png"
   },
 
   {

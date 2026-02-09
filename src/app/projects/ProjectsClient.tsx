@@ -5,15 +5,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { projectList } from "~/components/Projects";
 import { useClientParticles } from "~/hooks/useClientRandom";
+import { useThrottledMouseMove } from "~/hooks/useThrottledMouseMove";
 
 export default function Projects() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeCategory, setActiveCategory] = useState("All");
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const mainRef = useRef<HTMLDivElement>(null);
+  const mousePosition = useThrottledMouseMove(mainRef);
 
-  // Generate stable random values for particles on client side only
-  const bgParticles = useClientParticles(30, (i) => ({
+  // Generate stable random values for particles on client side only (optimized counts)
+  const bgParticles = useClientParticles(15, (i) => ({
     width: Math.random() * 4 + 1,
     height: Math.random() * 4 + 1,
     left: Math.random() * 100,
@@ -32,7 +33,7 @@ export default function Projects() {
     delay: Math.random() * 5
   }));
 
-  const btnParticles = useClientParticles(5, (i) => ({
+  const btnParticles = useClientParticles(3, (i) => ({
     width: Math.random() * 2 + 1,
     height: Math.random() * 2 + 1,
     left: Math.random() * 100,
@@ -42,13 +43,13 @@ export default function Projects() {
     duration: 1.5 + Math.random()
   }));
 
-  const lineParticles = useClientParticles(7, (i) => ({
+  const lineParticles = useClientParticles(4, (i) => ({
     left: i * 16.6,
     duration: 2 + i * 0.5,
     delay: i * 0.3
   }));
 
-  const signParticles = useClientParticles(5, (i) => ({
+  const signParticles = useClientParticles(3, (i) => ({
     width: Math.random() * 2 + 1,
     height: Math.random() * 2 + 1,
     left: Math.random() * 100,
@@ -62,22 +63,7 @@ export default function Projects() {
   // Domain-based categories
   const categories = ["All", "Web Development", "Web Design", "Application", "AI/ML"];
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (mainRef.current) {
-        const rect = mainRef.current.getBoundingClientRect();
-        setMousePosition({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
-      }
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
+  // Mouse tracking is now handled by useThrottledMouseMove hook
 
   return (
     <main
